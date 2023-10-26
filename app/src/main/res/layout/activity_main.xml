@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvQuanLyCongViec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quan_ly_cong_viec"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/tvTenCongViec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Name"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuanLyCongViec" />
+
+    <EditText
+        android:id="@+id/etTenCongViec"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvTenCongViec"
+        app:layout_constraintStart_toEndOf="@id/tvTenCongViec" />
+
+    <TextView
+        android:id="@+id/tvNoiDungCongViec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Title"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTenCongViec" />
+
+    <EditText
+        android:id="@+id/etNoiDungCongViec"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvNoiDungCongViec"
+        app:layout_constraintStart_toEndOf="@id/tvTenCongViec" />
+
+    <RadioGroup
+
+        android:id="@+id/rgRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNoiDungCongViec">
+
+        <RadioButton
+            android:id="@+id/rbNam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Man" />
+
+        <RadioButton
+            android:id="@+id/rbNu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Woman" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvNgayHoanThanh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Deadline"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgRadioGroup" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNgayHoanThanh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Choose Date"
+        android:background="#C38E8E"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvNgayHoanThanh"
+        app:layout_constraintStart_toEndOf="@+id/tvNgayHoanThanh"
+        app:layout_constraintTop_toBottomOf="@id/rgRadioGroup" />
+
+    <EditText
+        android:id="@+id/etNgayHoanThanh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:focusable="false"
+        android:hint="Choose Date"
+        android:inputType="none"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvNgayHoanThanh"
+        app:layout_constraintStart_toEndOf="@id/btnNgayHoanThanh" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#C38E8E"
+        android:text="Add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNgayHoanThanh"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Update"
+        android:background="#C38E8E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAdd"
+        app:layout_constraintTop_toBottomOf="@+id/tvNgayHoanThanh" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/svSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vien"
+        android:hint="Search Work"
+        android:iconifiedByDefault="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+
+    <TextView
+        android:id="@+id/tvDanhSachCongViec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List Work"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svSearch" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvListWorks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/tvDanhSachCongViec"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
