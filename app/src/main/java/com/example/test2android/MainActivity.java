@@ -12,6 +12,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import androidx.appcompat.widget.SearchView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rcvListWorks;
     private WorkAdapter workAdapter;
     private List<WorkItem> workList;
+    private String searchKeyword = "";
+
     private String selectedDate = ""; // Biến để lưu trữ ngày được chọn
 
 
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         rbNu = findViewById(R.id.rbNu);
         rcvListWorks.setLayoutManager(new LinearLayoutManager(this));
         rcvListWorks.setAdapter(workAdapter);
-
+        SearchView searchView =findViewById(R.id.svSearch) ;
         findViewById(R.id.btnAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +114,21 @@ public class MainActivity extends AppCompatActivity {
                 etDate.setText(workItem.getDate());
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Xử lý sự kiện khi người dùng ấn Enter sau khi nhập từ khóa
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Xử lý sự kiện khi người dùng thay đổi nội dung trong ô tìm kiếm
+                searchKeyword = newText;
+                filterWorkList(searchKeyword);
+                return true;
+            }
+        });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +181,19 @@ public class MainActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+    private void filterWorkList(String keyword) {
+        List<WorkItem> filteredList = new ArrayList<>();
+
+        for (WorkItem workItem : workList) {
+            if (workItem.getName().toLowerCase().contains(keyword.toLowerCase()) ||
+                    workItem.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredList.add(workItem);
+            }
+        }
+
+        workAdapter.filterList(filteredList);
+    }
+
 
     private boolean isNameExist(String name) {
         for (WorkItem item : workList) {

@@ -120,6 +120,11 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
             }
         }
     }
+    public void filterList(List<WorkItem> filteredList) {
+        workList = filteredList;
+        notifyDataSetChanged();
+    }
+
 
 }
 
