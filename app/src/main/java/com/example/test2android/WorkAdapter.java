@@ -79,7 +79,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDate = itemView.findViewById(R.id.textViewDate);
-            btnDelete = itemView.findViewById(R.id.btnDelte); // Sửa lỗi chính tả
+            btnDelete = itemView.findViewById(R.id.btnDelete); //
         }
 
         public void bind(WorkItem workItem, WorkItem selectedWorkItem) {
