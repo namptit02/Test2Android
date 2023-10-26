@@ -43,7 +43,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
             public void onClick(View view) {
                 selectedWorkItem = workItem;
                 notifyDataSetChanged(); // Cập nhật lại danh sách để hiển thị mục được chọn
-//                updateSelectedViews(); // Gọi hàm cập nhật giao diện khi chọn mục
+
             }
         });
 
@@ -68,6 +68,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
     public class WorkViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewGender;
         private TextView textViewName;
+        private TextView textViewTitle;
         private TextView textViewDate;
         private Button btnDelete; // Sửa lỗi chính tả
         private int selectedPosition = -1; // Ban đầu không có mục nào được chọn
@@ -76,6 +77,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
             super(itemView);
             imageViewGender = itemView.findViewById(R.id.imageViewGender);
             textViewName = itemView.findViewById(R.id.textViewName);
+            textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDate = itemView.findViewById(R.id.textViewDate);
             btnDelete = itemView.findViewById(R.id.btnDelte); // Sửa lỗi chính tả
         }
@@ -83,6 +85,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
         public void bind(WorkItem workItem, WorkItem selectedWorkItem) {
             imageViewGender.setImageResource(workItem.getGenderIcon());
             textViewName.setText(workItem.getName());
+            textViewTitle.setText(workItem.getTitle());
             textViewDate.setText(workItem.getDate());
 
             // Xác định xem mục này có được chọn hay không và cập nhật giao diện

@@ -24,6 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name" />
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title" />
 
         <TextView
             android:id="@+id/textViewDate"

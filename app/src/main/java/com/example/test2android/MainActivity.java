@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.test2android.model.WorkItem;
@@ -22,26 +24,27 @@ public class MainActivity extends AppCompatActivity {
     private EditText etTenCongViec;
     private EditText etNoiDungCongViec;
     private RadioGroup rgRadioGroup;
+    private EditText etDate;
+    private Button btnAdd, btnUpdate;
+
     private RecyclerView rcvListWorks;
     private WorkAdapter workAdapter;
     private List<WorkItem> workList;
     private String selectedDate = ""; // Biến để lưu trữ ngày được chọn
-    private WorkItem selectedWorkItem;
-    private EditText etSelectedTenCongViec;
-    private EditText etSelectedNoiDungCongViec;
-    private RadioGroup rgSelectedRadioGroup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        etSelectedTenCongViec = findViewById(R.id.etTenCongViec);
-        etSelectedNoiDungCongViec = findViewById(R.id.etNoiDungCongViec);
-        rgSelectedRadioGroup = findViewById(R.id.rgRadioGroup);
+
 
         etTenCongViec = findViewById(R.id.etTenCongViec);
         etNoiDungCongViec = findViewById(R.id.etNoiDungCongViec);
         rgRadioGroup = findViewById(R.id.rgRadioGroup);
+        etDate = findViewById(R.id.etNgayHoanThanh);
+        btnUpdate = findViewById(R.id.btnUpdate);
+        btnAdd = findViewById(R.id.btnAdd);
         rcvListWorks = findViewById(R.id.rcvListWorks);
 
         workList = new ArrayList<>();
@@ -61,17 +64,23 @@ public class MainActivity extends AppCompatActivity {
                 if (name.isEmpty() || title.isEmpty() || gender.isEmpty() || selectedDate.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Vui lòng điền đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
                 } else {
-                    int genderIcon = (gender.equals("Man")) ? R.drawable.male : R.drawable.female;
+                    // Kiểm tra xem tên công việc đã tồn tại trong RecyclerView hay chưa
+                    if (isNameExist(name)) {
+                        Toast.makeText(MainActivity.this, "Tên công việc đã tồn tại.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        int genderIcon = (gender.equals("Man")) ? R.drawable.male : R.drawable.female;
 
-                    WorkItem workItem = new WorkItem(genderIcon, name, title, selectedDate);
-                    workList.add(workItem);
-                    workAdapter.notifyDataSetChanged();
+                        WorkItem workItem = new WorkItem(genderIcon, name, title, selectedDate);
+                        workList.add(workItem);
+                        workAdapter.notifyDataSetChanged();
 
-                    // Đặt lại các trường input cho công việc tiếp theo (name, title, date)
-                    etTenCongViec.setText("");
-                    etNoiDungCongViec.setText("");
-                    rgRadioGroup.clearCheck();
-                    selectedDate = ""; // Đặt lại ngày đã chọn
+                        // Đặt lại các trường input cho công việc tiếp theo (name, title, date)
+                        etTenCongViec.setText("");
+                        etNoiDungCongViec.setText("");
+                        rgRadioGroup.clearCheck();
+                        selectedDate = ""; // Đặt lại ngày đã chọn
+                        etDate.setText("");
+                    }
                 }
             }
         });
@@ -104,11 +113,14 @@ public class MainActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-
-
-
-
-
+    private boolean isNameExist(String name) {
+        for (WorkItem item : workList) {
+            if (item.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }
