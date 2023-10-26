@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup rgRadioGroup;
     private EditText etDate;
     private Button btnAdd, btnUpdate;
-
+    private RadioButton rbNam;
+    private RadioButton rbNu;
     private RecyclerView rcvListWorks;
     private WorkAdapter workAdapter;
     private List<WorkItem> workList;
@@ -49,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         workList = new ArrayList<>();
         workAdapter = new WorkAdapter(workList);
-
+        rbNam = findViewById(R.id.rbNam);
+        rbNu = findViewById(R.id.rbNu);
         rcvListWorks.setLayoutManager(new LinearLayoutManager(this));
         rcvListWorks.setAdapter(workAdapter);
 
@@ -91,6 +94,52 @@ public class MainActivity extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
+        workAdapter.setOnItemClickListener(new WorkAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(WorkItem workItem) {
+                // Cập nhật các EditText, RadioButton và TextView với thông tin mục đã chọn
+                etTenCongViec.setText(workItem.getName());
+                etNoiDungCongViec.setText(workItem.getTitle());
+                if (workItem.getGenderIcon() == R.drawable.male) {
+                    rbNam.setChecked(true);
+                    rbNu.setChecked(false);
+                } else {
+                    rbNam.setChecked(false);
+                    rbNu.setChecked(true);
+                }
+                etDate.setText(workItem.getDate());
+            }
+        });
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Lấy thông tin từ các EditText, RadioButton, và TextView sau khi chỉnh sửa
+                String updatedName = etTenCongViec.getText().toString();
+                String updatedTitle = etNoiDungCongViec.getText().toString();
+                String updatedGender = rgRadioGroup.getCheckedRadioButtonId() == R.id.rbNam ? "Man" : "Woman";
+                String updatedDate = etDate.getText().toString();
+
+                // Kiểm tra xem có thông tin cần thiết đã được nhập chưa
+                if (updatedName.isEmpty() || updatedTitle.isEmpty() || updatedGender.isEmpty() || updatedDate.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Vui lòng điền đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Tạo một đối tượng WorkItem đã chỉnh sửa
+                    int updatedGenderIcon = (updatedGender.equals("Man")) ? R.drawable.male : R.drawable.female;
+                    WorkItem updatedWorkItem = new WorkItem(updatedGenderIcon, updatedName, updatedTitle, updatedDate);
+
+                    // Cập nhật thông tin mục đã chọn trong WorkAdapter
+                    workAdapter.updateSelectedWorkItem(updatedWorkItem);
+
+                    // Đặt lại các trường input cho công việc tiếp theo (name, title, date)
+                    etTenCongViec.setText("");
+                    etNoiDungCongViec.setText("");
+                    rgRadioGroup.clearCheck();
+                    etDate.setText("");
+                    selectedDate = ""; // Đặt lại ngày đã chọn
+                }
+            }
+        });
+
 
 
     }
@@ -113,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+
     private boolean isNameExist(String name) {
         for (WorkItem item : workList) {
             if (item.getName().equals(name)) {

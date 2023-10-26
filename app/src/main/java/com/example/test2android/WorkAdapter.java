@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Button; // Thêm import cho Button
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +19,7 @@ import java.util.List;
 public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder> {
     private WorkItem selectedWorkItem = null;
     private List<WorkItem> workList;
-    private boolean isEditMode = false;
+
 
     public WorkAdapter(List<WorkItem> workList) {
         this.workList = workList;
@@ -42,12 +42,12 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
             @Override
             public void onClick(View view) {
                 selectedWorkItem = workItem;
-                notifyDataSetChanged(); // Cập nhật lại danh sách để hiển thị mục được chọn
+                itemClickListener.onItemClick(workItem);
 
             }
         });
 
-        // Xử lý sự kiện nhấn nút "Delete" cho mỗi item
+
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +66,16 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
     }
 
     public class WorkViewHolder extends RecyclerView.ViewHolder {
+        public void setSelectedPosition(int position) {
+
+            notifyDataSetChanged();
+        }
         private ImageView imageViewGender;
         private TextView textViewName;
         private TextView textViewTitle;
         private TextView textViewDate;
         private Button btnDelete; // Sửa lỗi chính tả
-        private int selectedPosition = -1; // Ban đầu không có mục nào được chọn
+
 
         public WorkViewHolder(View itemView) {
             super(itemView);
@@ -98,5 +102,24 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder
 
         }
     }
+    public interface OnItemClickListener {
+        void onItemClick(WorkItem workItem);
+    }
+
+    private OnItemClickListener itemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+    public void updateSelectedWorkItem(WorkItem updatedWorkItem) {
+        if (selectedWorkItem != null) {
+            int index = workList.indexOf(selectedWorkItem);
+            if (index != -1) {
+                workList.set(index, updatedWorkItem);
+                notifyItemChanged(index);
+            }
+        }
+    }
+
 }
 
